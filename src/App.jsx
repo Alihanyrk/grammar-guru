@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 
@@ -327,7 +327,7 @@ function Spinner() {
 // ─── API helpers ─────────────────────────────────────────────────────────────
 
 async function callClaude(systemPrompt, userPrompt) {
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
+  const res = await fetch("/api/chat", {
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body: JSON.stringify({
@@ -605,13 +605,16 @@ function ExerciseView({ exerciseType, exercise, onSubmit, onBack, isAnalyzing, s
   const [showAnswers, setShowAnswers]   = useState(false);
 
   // Scroll to a specific question when asked (from results panel)
-  const { useState: _u, useEffect } = { useState, useEffect: (fn, deps) => { if (typeof window !== "undefined") { const id = setTimeout(fn, 80); return () => clearTimeout(id); } } };
-  if (scrollToId) {
-    setTimeout(() => {
-      const el = document.getElementById(`question-${scrollToId}`);
-      if (el) { el.scrollIntoView({ behavior: "smooth", block: "center" }); el.style.outline = `2px solid ${C.accent}`; setTimeout(() => el.style.outline = "none", 1600); }
-    }, 100);
-  }
+  useEffect(() => {
+    if (!scrollToId) return;
+    const el = document.getElementById(`question-${scrollToId}`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.style.outline = `2px solid ${C.accent}`;
+      const t = setTimeout(() => { el.style.outline = "none"; }, 1600);
+      return () => clearTimeout(t);
+    }
+  }, [scrollToId]);
 
   function setAns(k, v) { setAnswers(p => ({ ...p, [k]: v })); }
 
@@ -1239,10 +1242,10 @@ function ConversationTutor({ language, level, onBack }) {
   const recognitionRef = useRef(null);
 
   // Check browser support on mount
-  useState(() => {
+  useEffect(() => {
     setMicAvailable(!!(window.SpeechRecognition || window.webkitSpeechRecognition));
     setTtsSupported(!!window.speechSynthesis);
-  });
+  }, []);
 
   function scrollBottom() {
     setTimeout(() => bottomRef.current?.scrollIntoView({ behavior:"smooth" }), 80);
@@ -1321,7 +1324,7 @@ function ConversationTutor({ language, level, onBack }) {
 
     try {
       const history = newMessages.map(m => ({ role: m.role, content: m.text }));
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("/api/chat", {
         method:"POST",
         headers:{"Content-Type":"application/json"},
         body: JSON.stringify({
@@ -1825,7 +1828,7 @@ function ArtikelGamePlay({ level, onFinish, onBack }) {
 
 // ─── App Shell ────────────────────────────────────────────────────────────────
 
-export default function GrammarGuru() {
+export default function App() {
   const [appState, setAppState] = useState("setup");
   const [isLoading, setIsLoading]     = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
