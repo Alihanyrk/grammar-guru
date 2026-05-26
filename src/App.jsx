@@ -238,11 +238,11 @@ const DIFFICULTY_COLORS = {
 // ─── Styles ──────────────────────────────────────────────────────────────────
 
 const C = {
-  bg:     "#0d1117",
-  surface:"#161b22",
-  border: "#30363d",
-  text:   "#e6edf3",
-  muted:  "#8b949e",
+  bg:     "#FFFFFF",
+  surface:"#F7F7F5",
+  border: "#E5E5E5",
+  text:   "#0A0A0A",
+  muted:  "#6B6B6B",
   accent: "#58a6ff",
   green:  "#3fb950",
   red:    "#f85149",
@@ -290,7 +290,7 @@ function Btn({children, onClick, disabled, ghost, style={}, size="md"}) {
     <button onClick={onClick} disabled={disabled} style={{
       padding:pad, borderRadius:8, border: ghost ? `1px solid ${C.border}` : "none",
       background: ghost ? "transparent" : disabled ? "#21262d" : C.grad,
-      color: ghost ? C.muted : disabled ? C.muted : "#0d1117",
+      color: ghost ? C.muted : disabled ? C.muted : "#FFFFFF",
       cursor: disabled ? "not-allowed" : "pointer",
       fontWeight:"700", fontFamily:"inherit", fontSize:fz,
       transition:"opacity 0.15s", ...style,
@@ -910,7 +910,7 @@ function ResultsView({ results, onNewExercise, onContinue, onSuggestedExercise, 
         <button key={v} onClick={() => setView(v)} style={{
           padding: "8px 22px", borderRadius: 7, border: "none",
           background: view === v ? C.grad : "transparent",
-          color: view === v ? "#0d1117" : C.muted,
+          color: view === v ? "#FFFFFF" : C.muted,
           fontWeight: view === v ? 700 : 400,
           fontFamily: "inherit", fontSize: 13, cursor: "pointer",
           transition: "all 0.15s",
@@ -1112,7 +1112,7 @@ function PlacementTest({ language, onComplete, onSkip }) {
           <div style={{
             width:80,height:80,borderRadius:16,background:C.grad,
             display:"flex",alignItems:"center",justifyContent:"center",
-            fontSize:28,fontWeight:700,color:"#0d1117",margin:"0 auto 16px",
+            fontSize:28,fontWeight:700,color:"#FFFFFF",margin:"0 auto 16px",
           }}>{scoreData.level}</div>
           <h1 style={{fontSize:30,fontWeight:700,marginBottom:8}}>Your Level: {scoreData.level}</h1>
           <p style={{color:C.muted,maxWidth:400,margin:"0 auto"}}>{scoreData.feedback}</p>
@@ -1461,7 +1461,7 @@ Rules:
               border: msg.role==="user" ? "none" : `1px solid ${C.border}`,
               borderRadius: msg.role==="user" ? "18px 18px 4px 18px" : "18px 18px 18px 4px",
               padding:"12px 16px",
-              color: msg.role==="user" ? "#0d1117" : C.text,
+              color: msg.role==="user" ? "#FFFFFF" : C.text,
               fontSize:15, lineHeight:1.6,
               position:"relative",
             }}>
@@ -1568,7 +1568,7 @@ Rules:
           style={{
             width:44, height:44, borderRadius:"50%", border:"none",
             background: input.trim() && !loading ? C.grad : "#21262d",
-            color: input.trim() && !loading ? "#0d1117" : C.muted,
+            color: input.trim() && !loading ? "#FFFFFF" : C.muted,
             fontSize:18, cursor: input.trim() && !loading ? "pointer" : "not-allowed",
             flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center",
           }}>
